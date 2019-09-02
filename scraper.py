@@ -13,7 +13,7 @@ def date_add_hours(hours_to_add):
 
 def find_it(search, existing_ids):
     api = Connection(config_file='ebay.yaml', debug=DEBUG, siteid="EBAY-US")
-    response = api.execute('findItemsByKeywords', search)
+    response = api.execute('findCompletedItems', search)
     result_list = []
     if response.reply.paginationOutput.totalEntries != "0":
         for item in response.reply.searchResult.item:
@@ -44,14 +44,13 @@ def input_items(items):
             })
     response = requests.post(url, json=data)
     print response
-    
+
 
 def load_searches():
     searches = []
     with open("searches.txt") as f1:
         for line in f1.readlines():
-            searches.append({line.split('|')[0]: line.split('|')[1].rstrip('\n')})
-    print searches
+            searches.append({line.split('|')[0]: line.split('|')[1].rstrip('\n'),"SoldItemsOnly":True})
     return searches
 
 
